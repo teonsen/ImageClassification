@@ -6,6 +6,8 @@
     <Authors>teonsen</Authors>
     <Company>teonsen</Company>
     <Copyright>teonsen</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Image classification library using ML.NET.</Description>
   </PropertyGroup>
 
   <ItemGroup>
