@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>teonsen</Authors>
+    <Company>teonsen</Company>
+    <Copyright>teonsen</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ML" Version="1.5.4" />
+    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.5.4" />
+    <PackageReference Include="Microsoft.ML.Vision" Version="1.5.4" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.3.1" />
+  </ItemGroup>
+
+</Project>
