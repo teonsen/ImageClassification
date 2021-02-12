@@ -12,18 +12,30 @@ https://github.com/karaage0703/janken_dataset
 ```csharp
 using ImageClassification;
 
+// Define data-set folder.
 string dataDir = @"C:\Users\user\Downloads\janken_dataset-master\janken_dataset-master";
-string modelPath, pipelinePath;
+            
 // Define hyper-paramters such as Epoch or BatchSize.
-var hp = new HyperParameter { Epoch = 200, BatchSize = 10, LearningRate = 0.01f, eTrainerArchitecture = eTrainerArchitectures.ResnetV250 };
-Trainer.GenerateModel(dataDir, hp, out pipelinePath, out modelPath, true);
+var hp = new HyperParameter {
+    Epoch = 200,
+    BatchSize = 10,
+    LearningRate = 0.01f,
+    eTrainerArchitecture = eTrainerArchitectures.ResnetV250,
+    TestFraction = 0.3f
+};
+
+// Train and generate the model.
+var resultFile = Trainer.GenerateModel(dataDir, hp);
 ```
 Once you run the code above, pipeline.zip and model.zip will be created in the dataset folder.
 
 ## Classify
 To predict an image, pass the pipeline and model.zip output by Trainer.GenerateModel() above, as well as the image file, to the following function.
 ```csharp
-var result = Predictor.ClassifySingleImage(${ the path of pipeline.zip}, ${ the path of model.zip}, ${imagePath});
+// Classify the single image.
+string imageToClassify = @"path to the image";
+var prediction = Predictor.ClassifySingleImage(resultFile.PipelineSavedPath, resultFile.ModelSavedPath, imageToClassify);
+Console.WriteLine($@"Predicted image label is: ""{prediction.PredictedLabel}"". Score:{prediction.Score}");
 ```
 
 # Acknowledgements
