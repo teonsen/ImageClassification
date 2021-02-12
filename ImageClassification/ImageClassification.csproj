@@ -8,6 +8,10 @@
     <Copyright>teonsen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Image classification library using ML.NET.</Description>
+    <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

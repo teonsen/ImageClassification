@@ -2,16 +2,16 @@
 
 namespace ImageClassification
 {
-    internal class ImageData
+    public class ImageData
     {
-        internal string Name { get; set; }
-        internal string ImagePath { get; set; }
+        public string Name { get; set; }
+        public string ImagePath { get; set; }
     }
 
-    internal class ImagePrediction : ImageData
+    public class ImagePrediction : ImageData
     {
-        internal string PredictedLabelValue { get; set; }
-        internal float[] Score { get; set; }
+        public string PredictedLabelValue { get; set; }
+        public float[] Score { get; set; }
     }
 }
 

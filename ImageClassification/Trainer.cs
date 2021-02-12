@@ -18,15 +18,12 @@ namespace ImageClassification
         /// <summary>
         /// This is a sample of image classification using transfer learning.(転移学習により画像の分類を行うサンプルです。)
         /// </summary>
-        /// <param name="imagesFolder">Specify the root folder where the images are foldered for each type.(それぞれの種類にフォルダ分けされた画像があるルートフォルダを指定してください。)</param>
-        /// <param name="createdPipelinePath">The path where the pipeline (.zip file) is saved. The pipeline will be saved directly under 'imagesFolder'. This file will be needed when predicting images along with the model.</param>
-        /// <param name="createdModelPath">The path where the trained model (.zip file) is saved. The trained model will be saved directly under 'imagesFolder'. This file will be needed when predicting images.</param>
-        /// <param name="saveResultHTML">Specify "true" if you want to output the learning results as an HTML file.(学習結果をHTMLファイルとして出力する場合はtrueを指定してください。)</param>
-        public static void GenerateModel(string imagesFolder, HyperParameter hp, out string createdPipelinePath, out string createdModelPath, bool saveResultHTML = false)
+        /// <param name="imagesFolder">Specify the root folder where the images are foldered for each label.(それぞれの種類にフォルダ分けされた画像があるルートフォルダを指定してください。)</param>
+        /// <param name="hp">Hyper parameters</param>
+        /// <returns></returns>
+        public static TrainingResultFiles GenerateModel(string imagesFolder, HyperParameter hp)
         {
-            createdModelPath = Path.Combine(imagesFolder, "model.zip");
-            createdPipelinePath = Path.Combine(imagesFolder, "data_preparation_pipeline.zip");
-            string resultHTMLPath = Path.Combine(imagesFolder, $"Result{DateTimeOffset.Now:yyyyMMddHHmmss}.html");
+            var resultFiles = new TrainingResultFiles(imagesFolder);
 
             // データフォルダの指定
             // データフォルダ下にあるフォルダ名をラベル名とする
@@ -67,7 +64,7 @@ namespace ImageClassification
 
             // データセットを学習データ、検証データ、評価データに分割
             // データセットを 7:3 に分割(データセットの 70% を学習データとする)
-            var trainValidationTestSplit = mlContext.Data.TrainTestSplit(transformedDataView, testFraction: 0.3);
+            var trainValidationTestSplit = mlContext.Data.TrainTestSplit(transformedDataView, testFraction: hp.TestFraction);
             IDataView trainDataView70 = trainValidationTestSplit.TrainSet;
             IDataView testDataView30 = trainValidationTestSplit.TestSet;
             // 検証/評価データセットを 8:2 に分割
@@ -83,7 +80,7 @@ namespace ImageClassification
             {
                 LabelColumnName = "Label", //ラベル列
                 FeatureColumnName = "RawImageBytes", // 特徴列
-                //Arch = ImageClassificationTrainer.Architecture.ResnetV250, //転移学習モデルの選択
+                //Arch = ImageClassificationTrainer.Architecture.ResnetV250,
                 Arch = (ImageClassificationTrainer.Architecture)hp.eTrainerArchitecture, //転移学習モデルの選択
                 Epoch = hp.Epoch,
                 BatchSize = hp.BatchSize,
@@ -103,19 +100,40 @@ namespace ImageClassification
             ITransformer model = pipeline.Fit(trainDataView70);
 
             // データ準備パイプラインをファイルに保存
-            mlContext.Model.Save(dataPrepTransformer, trainDataView70.Schema, createdPipelinePath);
+            mlContext.Model.Save(dataPrepTransformer, trainDataView70.Schema, resultFiles.PipelineSavedPath);
 
             // 学習モデルをファイルに保存
-            mlContext.Model.Save(model, trainDataView70.Schema, createdModelPath);
+            mlContext.Model.Save(model, trainDataView70.Schema, resultFiles.ModelSavedPath);
 
             // テストデータで推論を実行
             IDataView prediction = model.Transform(testDataView6);
             IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true).Take(10);
 
-            if (saveResultHTML)
+            // 結果を保存
+            SaveResultHTML(mlContext, trainDataView70, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath);
+            return resultFiles;
+        }
+
+        /// <summary>
+        /// Paths to model.zip, pipeline.zip, and result.html which are saved as a result of training
+        /// </summary>
+        public class TrainingResultFiles
+        {
+            /// <summary>
+            /// The path where the trained model (.zip file) is saved. The trained model will be saved directly under 'imagesFolder'. This file will be needed when predicting images.
+            /// </summary>
+            public string ModelSavedPath { get; private set; }
+            /// <summary>
+            /// The path where the pipeline (.zip file) is saved. The pipeline will be saved directly under 'imagesFolder'. This file will be needed when predicting images along with the model.
+            /// </summary>
+            public string PipelineSavedPath { get; private set; }
+            public string ResultHTMLSavedPath { get; private set; }
+
+            public TrainingResultFiles(string imagesFolder)
             {
-                // 結果を保存
-                SaveResultHTML(mlContext, trainDataView70, prediction, predictions, createdModelPath, resultHTMLPath);
+                ModelSavedPath = Path.Combine(imagesFolder, "model.zip");
+                PipelineSavedPath = Path.Combine(imagesFolder, "pipeline.zip");
+                ResultHTMLSavedPath = Path.Combine(imagesFolder, $"result{DateTimeOffset.Now:yyyyMMddHHmmss}.html");
             }
         }
 
