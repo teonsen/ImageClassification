@@ -35,6 +35,11 @@ namespace ImageClassification
         /// データセットの学習・検証/評価の分割比率。0.3の場合は70%が学習データで、残りが検証/評価データとなる。
         /// </summary>
         public double TestFraction { get; set; } = 0.3f;
+
+        /// <summary>
+        /// 結果表示件数
+        /// </summary>
+        public int ResultsToShow { get; set; } = 10;
     }
 
     public enum eTrainerArchitectures

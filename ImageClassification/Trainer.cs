@@ -65,10 +65,10 @@ namespace ImageClassification
             // データセットを学習データ、検証データ、評価データに分割
             // データセットを 7:3 に分割(データセットの 70% を学習データとする)
             var trainValidationTestSplit = mlContext.Data.TrainTestSplit(transformedDataView, testFraction: hp.TestFraction);
-            IDataView trainDataView70 = trainValidationTestSplit.TrainSet;
-            IDataView testDataView30 = trainValidationTestSplit.TestSet;
+            IDataView trainDataView = trainValidationTestSplit.TrainSet;
+            IDataView testDataView = trainValidationTestSplit.TestSet;
             // 検証/評価データセットを 8:2 に分割
-            var validationTestSplit = mlContext.Data.TrainTestSplit(testDataView30, testFraction: 0.2);
+            var validationTestSplit = mlContext.Data.TrainTestSplit(testDataView, testFraction: 0.2);
 
             // データセットの 24% を検証データとする
             IDataView validationDataView24 = validationTestSplit.TrainSet;
@@ -97,20 +97,20 @@ namespace ImageClassification
                     outputColumnName: nameof(ImagePrediction.PredictedLabelValue)));
 
             // 学習の実行
-            ITransformer model = pipeline.Fit(trainDataView70);
+            ITransformer model = pipeline.Fit(trainDataView);
 
             // データ準備パイプラインをファイルに保存
-            mlContext.Model.Save(dataPrepTransformer, trainDataView70.Schema, resultFiles.PipelineSavedPath);
+            mlContext.Model.Save(dataPrepTransformer, trainDataView.Schema, resultFiles.PipelineSavedPath);
 
             // 学習モデルをファイルに保存
-            mlContext.Model.Save(model, trainDataView70.Schema, resultFiles.ModelSavedPath);
+            mlContext.Model.Save(model, trainDataView.Schema, resultFiles.ModelSavedPath);
 
             // テストデータで推論を実行
             IDataView prediction = model.Transform(testDataView6);
-            IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true).Take(10);
+            IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true).Take(hp.ResultsToShow);
 
             // 結果を保存
-            SaveResultHTML(mlContext, trainDataView70, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath);
+            SaveResultHTML(mlContext, trainDataView, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath);
             return resultFiles;
         }
 

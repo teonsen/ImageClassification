@@ -7,12 +7,16 @@
     <Company>teonsen</Company>
     <Copyright>teonsen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Image classification library using ML.NET.</Description>
+    <Description>A ML.NET wrapper for image classification.
+Microsoft.ML (1.5.4)
+SciSharp.TensorFlow.Redist (2.3.1)
+</Description>
     <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
-    <Version>1.0.2</Version>
+    <AssemblyVersion>1.5.4.0</AssemblyVersion>
+    <FileVersion>1.5.4.0</FileVersion>
+    <Version>1.5.4</Version>
     <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
+    <PackageTags>ML.NET image-classification webcam</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
