@@ -110,7 +110,7 @@ namespace ImageClassification
             IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true).Take(hp.ResultsToShow);
 
             // 結果を保存
-            SaveResultHTML(mlContext, trainDataView, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath);
+            SaveResultHTML(mlContext, trainDataView, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath, hp.ResultsToShow);
             return resultFiles;
         }
 
@@ -137,7 +137,7 @@ namespace ImageClassification
             }
         }
 
-        private static void SaveResultHTML(MLContext context, IDataView trainData, IDataView prediction, IEnumerable<ImagePrediction> predictions, string modelFilePath, string resultHTMLPath)
+        private static void SaveResultHTML(MLContext context, IDataView trainData, IDataView prediction, IEnumerable<ImagePrediction> predictions, string modelFilePath, string resultHTMLPath, int resultsToShow)
         {
             // テストデータでの推論結果をもとに評価指標を計算
             var metrics = context.MulticlassClassification.Evaluate(prediction);
@@ -200,7 +200,7 @@ namespace ImageClassification
                     writer.WriteLine($"<td>");
                     p.Score.Select((s, i) => (Index: i, Label: keyValues.GetItemOrDefault(i), Score: s))
                     .OrderByDescending(c => c.Score)
-                    .Take(10) // 上位 10 件
+                    .Take(resultsToShow) // 上位 10 件
                     .ToList()
                     .ForEach(c =>
                     {

@@ -1,20 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>teonsen</Authors>
     <Company>teonsen</Company>
     <Copyright>teonsen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A ML.NET wrapper for image classification.
-Microsoft.ML (1.5.4)
-SciSharp.TensorFlow.Redist (2.3.1)
+Microsoft.ML (1.5.4); SciSharp.TensorFlow.Redist (2.3.1)
 </Description>
     <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
-    <AssemblyVersion>1.5.4.0</AssemblyVersion>
-    <FileVersion>1.5.4.0</FileVersion>
-    <Version>1.5.4</Version>
+    <AssemblyVersion>1.5.4.1</AssemblyVersion>
+    <FileVersion>1.5.4.1</FileVersion>
+    <Version>1.5.4.1</Version>
     <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
     <PackageTags>ML.NET image-classification webcam</PackageTags>
   </PropertyGroup>
