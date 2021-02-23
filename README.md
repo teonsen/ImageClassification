@@ -10,7 +10,7 @@ https://www.nuget.org/packages/ImageClassification/
 
 ![Image](dataset_foldering.png)
 
-3. That's all!
+2. That's all!
 
 ## Train and generate the model
 ```csharp
