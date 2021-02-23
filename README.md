@@ -12,6 +12,9 @@ https://www.nuget.org/packages/ImageClassification/
 
 2. That's all!
 
+For those who want to prepare their own images using a webcam, this repo is kindly provided.
+https://github.com/teonsen/WebcamImageClassification
+
 ## Train and generate the model
 ```csharp
 using ImageClassification;
