@@ -43,5 +43,5 @@ Console.WriteLine($@"Predicted image label is: ""{prediction.PredictedLabel}"". 
 ```
 
 # Acknowledgements
-* Most part of the codes are originaly written by [@Hiromasa-Masuda](https://github.com/Hiromasa-Masuda)
+* Most part of the code is originaly written by [@Hiromasa-Masuda](https://github.com/Hiromasa-Masuda)
 * Thank you for all the effort to create ML.NET and SciSharp
