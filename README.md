@@ -6,7 +6,7 @@ https://www.nuget.org/packages/ImageClassification/
 
 ## Prepare
 
-1. Prepare the foldered data as show below
+1. Prepare the foldered data as show below. 100 images of each is enough.
 
 ![Image](dataset_foldering.png)
 
