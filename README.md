@@ -37,7 +37,7 @@ var resultFile = Trainer.GenerateModel(dataDir, hp);
 Once you run the code above, pipeline.zip and model.zip will be created in the dataset folder.
 
 ## Classify
-To predict an image, pass the pipeline and model.zip output by Trainer.GenerateModel() above, as well as the image file, to the following function.
+To predict an image, pass the pipeline and model.zip output by Trainer.GenerateModel() above, as well as the image file, like following.
 ```csharp
 // Classify the single image.
 string imageToClassify = @"C:\your\imageToClassify(apple_or_banana_or_orange).png";
