@@ -28,7 +28,6 @@ namespace ImageClassificationGPU
 
             // データフォルダの指定
             // データフォルダ下にあるフォルダ名をラベル名とする
-            //var dataFiles = Directory.GetFiles(imagesFolder, "*", SearchOption.AllDirectories).ToList().FindAll(a => a.ToLower().EndsWith(".jpg") || a.ToLower().EndsWith(".png"));
             var dataFiles = Directory.EnumerateFiles(imagesFolder, "*", SearchOption.AllDirectories).Where(s =>
             s.EndsWith(".jpg", StringComparison.CurrentCultureIgnoreCase) || s.EndsWith(".png", StringComparison.CurrentCultureIgnoreCase));
 
