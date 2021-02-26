@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageClassification
+namespace ImageClassification.IO
 {
     public class ImageData
     {

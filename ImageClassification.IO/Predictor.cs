@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.ML;
 using Microsoft.ML.Data;
 
-namespace ImageClassification
+namespace ImageClassification.IO
 {
     public static class Predictor
     {
@@ -48,12 +48,5 @@ namespace ImageClassification
             };
         }
 
-    }
-
-    public class PredictionResult
-    {
-        public string FileName { get; internal set; }
-        public string PredictedLabel { get; internal set; }
-        public float Score { get; internal set; }
     }
 }

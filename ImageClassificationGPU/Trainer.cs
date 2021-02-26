@@ -8,7 +8,7 @@ using Microsoft.ML.Transforms;
 using Microsoft.ML.Vision;
 using ImageClassification.IO;
 
-namespace ImageClassification
+namespace ImageClassificationGPU
 {
     public static class Trainer
     {
@@ -110,6 +110,7 @@ namespace ImageClassification
 
             // テストデータで推論を実行
             IDataView prediction = model.Transform(testDataView6);
+            //IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true).Take(10);
             IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true);
 
             // 結果を保存

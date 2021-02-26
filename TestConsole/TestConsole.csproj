@@ -5,8 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\ImageClassification\ImageClassification.csproj" />
+    <ProjectReference Include="..\ImageClassificationGPU\ImageClassificationGPU.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,12 @@
-﻿using System;
+﻿#define _USEGPU_
+using System;
 using System.IO;
+#if _USEGPU_
+using ImageClassificationGPU;
+#else
 using ImageClassification;
+#endif
+using ImageClassification.IO;
 
 namespace TestConsole
 {
@@ -20,12 +26,17 @@ namespace TestConsole
                     LearningRate = 0.01f,
                     eTrainerArchitecture = eTrainerArchitectures.ResnetV250,
                     TestFraction = 0.3f,
-                    ResultsToShow = 10
+                    ResultsToShow = 30
                 };
 
                 // Train and generate the model.
                 var resultFiles = Trainer.GenerateModel(dataDir, hp);
             }
+        }
+
+        static void Predict(TrainingResultFiles f)
+        {
+            var result = Predictor.ClassifySingleImage(f.PipelineSavedPath, f.ModelSavedPath, "path");
 
         }
     }

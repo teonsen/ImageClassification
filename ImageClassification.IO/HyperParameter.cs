@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ImageClassification
+namespace ImageClassification.IO
 {
     public class HyperParameter
     {
@@ -40,14 +40,6 @@ namespace ImageClassification
         /// 結果表示件数
         /// </summary>
         public int ResultsToShow { get; set; } = 10;
-    }
-
-    public enum eTrainerArchitectures
-    {
-        ResnetV2101, // 0
-        InceptionV3, // 1
-        MobilenetV2, // 2
-        ResnetV250   // 3
     }
 
 }

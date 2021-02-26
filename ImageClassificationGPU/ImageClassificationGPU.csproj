@@ -1,27 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>teonsen</Authors>
-    <Company>teonsen</Company>
-    <Copyright>teonsen</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>A ML.NET wrapper for image classification.
-</Description>
+    <Company>teonsen</Company>
+    <Product>ImageClassificationGPU</Product>
+    <Copyright>teonsen</Copyright>
+    <Version>1.5.4.2</Version>
+    <Authors>teonsen</Authors>
+    <Description>A ML.NET wrapper for image classification.</Description>
+    <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
     <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
+    <PackageTags>ML.NET image-classification webcam</PackageTags>
+    <PackageReleaseNotes>You need to meet following requirements.
+* CUDA 10.1 update2
+* cuDNN 7.6.5</PackageReleaseNotes>
     <AssemblyVersion>1.5.4.2</AssemblyVersion>
     <FileVersion>1.5.4.2</FileVersion>
-    <Version>1.5.4.2</Version>
-    <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
-    <PackageTags>ML.NET image-classification webcam</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ML" Version="1.5.4" />
     <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.5.4" />
     <PackageReference Include="Microsoft.ML.Vision" Version="1.5.4" />
-    <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.3.1" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
