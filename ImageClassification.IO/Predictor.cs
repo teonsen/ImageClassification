@@ -47,6 +47,13 @@ namespace ImageClassification.IO
                 Score = result.Score
             };
         }
-
     }
+
+    public class PredictionResult
+    {
+        public string FileName { get; set; }
+        public string PredictedLabel { get; set; }
+        public float Score { get; set; }
+    }
+
 }

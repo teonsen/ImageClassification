@@ -13,8 +13,7 @@ namespace ImageClassification.IO
                                 IDataView trainData,
                                 IDataView prediction,
                                 IEnumerable<ImagePrediction> predictions,
-                                string modelFilePath,
-                                string resultHTMLPath,
+                                TrainingResultFiles trf,
                                 int resultsToShow)
         {
             // テストデータでの推論結果をもとに評価指標を計算
@@ -25,13 +24,13 @@ namespace ImageClassification.IO
             trainData.Schema["Label"].GetKeyValues(ref keyValues);
 
             // HTML で評価結果を書き出し
-            using (var writer = new StreamWriter(resultHTMLPath))
+            using (var writer = new StreamWriter(trf.ResultHTMLSavedPath))
             {
-                writer.WriteLine($"<html><head><title>{Path.GetFileName(modelFilePath)}</title>");
+                writer.WriteLine($"<html><head><title>{Path.GetFileName(trf.ModelSavedPath)}</title>");
                 writer.WriteLine("<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css\" integrity=\"sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2\" crossorigin=\"anonymous\">");
                 writer.WriteLine("</head><body>");
 
-                writer.WriteLine($"<h1>Metrics for {Path.GetFileName(modelFilePath)}</h1>");
+                writer.WriteLine($"<h1>Metrics for {Path.GetFileName(trf.ModelSavedPath)}</h1>");
                 // メトリックの書き出し
                 writer.WriteLine("<div><table class=\"table table-striped\">");
                 writer.WriteLine($"<tr><td>MicroAccuracy</td><td>{metrics.MicroAccuracy:0.000}</td></tr></tr>");
@@ -68,24 +67,24 @@ namespace ImageClassification.IO
                 {
                     resultList.Add(new MainResult(p, keyValues));
                 }
-                resultList.Sort((a, b) => b.HighScore.CompareTo(a.HighScore));
+                resultList.Sort((a, b) => b.fHighScore.CompareTo(a.fHighScore));
 
                 int n = 1;
                 foreach (var p in resultList)
                 {
                     writer.WriteLine($"<tr><td>");
                     // 画像ファイル名
-                    writer.WriteLine($"[No.{n}] {Path.GetFileName(p.ImagePath)}<br />");
+                    writer.WriteLine($"[No.{n}] {p.FileName}<br />");
                     // 正解ラベル
                     writer.WriteLine($"Actual Value: {p.Name}<br />");
-                    string color = p.Name.Equals(p.PredictedLabel) ? "green" : "red";
+                    string color = p.IsCorrect ? "green" : "red";
                     // 推論結果
                     writer.WriteLine($@"<span style=""background: linear-gradient(transparent 50%, {color} 100%);"">Predicted Value:{p.PredictedLabel}</span><br />");
                     // 画像
                     writer.WriteLine($"<img class=\"img-fluid\" src=\"{p.ImagePath}\" /></td>");
                     // クラス毎の推論結果
                     writer.WriteLine($"<td>");
-                    foreach (var s in p.PredictionList)
+                    foreach (var s in p.LabelsScore)
                     {
                         if (s.fScore >= 0.95f)
                         {
@@ -107,34 +106,40 @@ namespace ImageClassification.IO
 
         class MainResult
         {
-            internal string Name { get; set; }
-            internal string PredictedLabel { get; set; }
-            internal string ImagePath { get; set; }
-            internal string HighScore { get; set; }
-            internal List<SubResult> PredictionList { get; set; }
+            internal string Name { get; private set; }
+            internal string PredictedLabel { get; private set; }
+            internal string ImagePath { get; private set; }
+            internal string FileName { get; private set; }
+            internal bool IsCorrect { get; private set; }
+            //internal string HighScore { get; private set; }
+            internal float fHighScore { get; private set; }
+            internal List<SubResult> LabelsScore { get; private set; }
 
             public MainResult(ImagePrediction p, VBuffer<ReadOnlyMemory<char>> keyValues)
             {
                 Name = p.Name;
                 PredictedLabel = p.PredictedLabelValue;
+                IsCorrect = Name.Equals(PredictedLabel);
                 ImagePath = p.ImagePath;
-                PredictionList = new List<SubResult>();
+                FileName = Path.GetFileName(ImagePath);
+                LabelsScore = new List<SubResult>();
                 p.Score.Select((s, i) => (Index: i, Label: keyValues.GetItemOrDefault(i), Score: s))
                 .OrderByDescending(c => c.Score)
                 .Take(10) // 上位 10 件(ラベル)
                 .ToList()
                 .ForEach(c =>
                 {
-                    PredictionList.Add(new SubResult(c.Label.ToString(), c.Score));
+                    LabelsScore.Add(new SubResult(c.Label.ToString(), c.Score));
                 });
-                HighScore = $"{PredictionList[0].fScore:P}";
+                fHighScore = LabelsScore[0].fScore;
+                //HighScore = $"{fHighScore:P}";
             }
         }
 
         class SubResult
         {
-            internal string Label { get; set; }
-            internal string sScore { get; set; }
+            internal string Label { get; private set; }
+            internal string sScore { get; private set; }
             internal float fScore { get; private set; }
             public SubResult(string label, float score)
             {

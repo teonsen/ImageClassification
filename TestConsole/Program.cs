@@ -1,11 +1,7 @@
-﻿#define _USEGPU_
-using System;
+﻿using System;
 using System.IO;
-#if _USEGPU_
+//using ImageClassification;
 using ImageClassificationGPU;
-#else
-using ImageClassification;
-#endif
 using ImageClassification.IO;
 
 namespace TestConsole

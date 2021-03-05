@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Microsoft.ML;
-using Microsoft.ML.Data;
 using Microsoft.ML.Transforms;
 using Microsoft.ML.Vision;
 using ImageClassification.IO;
@@ -25,26 +23,10 @@ namespace ImageClassification
         public static TrainingResultFiles GenerateModel(string imagesFolder, HyperParameter hp)
         {
             var resultFiles = new TrainingResultFiles(imagesFolder);
-
-            // データフォルダの指定
-            // データフォルダ下にあるフォルダ名をラベル名とする
-            var dataFiles = Directory.EnumerateFiles(imagesFolder, "*", SearchOption.AllDirectories).Where(s =>
-            s.EndsWith(".jpg", StringComparison.CurrentCultureIgnoreCase) || s.EndsWith(".png", StringComparison.CurrentCultureIgnoreCase));
-
-            // データセットの作成
-            var dataSet = dataFiles.Select(f => new ImageData
-            {
-                ImagePath = f,
-                Name = Directory.GetParent(f).Name
-            });
-
             // コンテキストの生成
             MLContext mlContext = new MLContext(seed: 1);
-
-            // データのロード
-            IDataView dataView = mlContext.Data.LoadFromEnumerable(dataSet);
-            // データセットをシャッフル
-            IDataView shuffledDataView = mlContext.Data.ShuffleRows(dataView);
+            // データをロードしてシャッフルする
+            var shuffledDataView = DataLoader.GetShuffledDataView(mlContext, imagesFolder);
 
             // データ前処理
             // データセットの加工
@@ -112,7 +94,7 @@ namespace ImageClassification
             IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true);
 
             // 結果を保存
-            ResultHTML.Save(mlContext, trainDataView, prediction, predictions, resultFiles.ModelSavedPath, resultFiles.ResultHTMLSavedPath, hp.ResultsToShow);
+            ResultHTML.Save(mlContext, trainDataView, prediction, predictions, resultFiles, hp.ResultsToShow);
             return resultFiles;
         }
 
