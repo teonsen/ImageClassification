@@ -6,7 +6,7 @@ https://www.nuget.org/packages/ImageClassification/
 
 ## Prepare
 
-1. Prepare the foldered data as show below. 100 images of each is enough.
+1. Prepare the foldered data as shown below. 100 images of each is enough.
 
 ![Image](dataset_foldering.png)
 
@@ -18,6 +18,7 @@ https://github.com/teonsen/WebcamImageClassification
 ## Train and generate the model
 ```csharp
 using ImageClassification;
+using ImageClassification.IO;
 
 // Define data-set folder.
 string dataDir = @"C:\Data\Fruits";
@@ -28,11 +29,12 @@ var hp = new HyperParameter {
     BatchSize = 10,
     LearningRate = 0.01f,
     eTrainerArchitecture = eTrainerArchitectures.ResnetV250,
-    TestFraction = 0.3f
+    TestFraction = 0.3f,
+    ResultsToShow = 10
 };
 
 // Train and generate the model.
-var resultFile = Trainer.GenerateModel(dataDir, hp);
+var resultFiles = Trainer.GenerateModel(dataDir, hp);
 ```
 Once you run the code above, pipeline.zip and model.zip will be created in the dataset folder.
 
