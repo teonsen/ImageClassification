@@ -12,7 +12,7 @@ https://www.nuget.org/packages/ImageClassification/
 
 2. That's all!
 
-For those who want to prepare their own images using a webcam, this repo is kindly provided.
+For those who want to prepare their own images using a webcam, this repo is kindly provided :)
 https://github.com/teonsen/WebcamImageClassification
 
 ## Train and generate the model
@@ -34,7 +34,9 @@ var hp = new HyperParameter {
 };
 
 // Train and generate the model.
-var resultFiles = Trainer.GenerateModel(dataDir, hp);
+var results = Trainer.GenerateModel(dataDir, hp);
+// Save the results as HTML file.
+results.SaveAsHTML();
 ```
 Once you run the code above, pipeline.zip and model.zip will be created in the dataset folder.
 
@@ -43,7 +45,7 @@ To predict an image, pass the pipeline and model.zip output by Trainer.GenerateM
 ```csharp
 // Classify the single image.
 string imageToClassify = @"C:\your\imageToClassify(apple_or_banana_or_orange).png";
-var prediction = Predictor.ClassifySingleImage(resultFile.PipelineSavedPath, resultFile.ModelSavedPath, imageToClassify);
+var prediction = Predictor.ClassifySingleImage(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, imageToClassify);
 Console.WriteLine($@"Predicted image label is: ""{prediction.PredictedLabel}"". Score:{prediction.Score}");
 ```
 
