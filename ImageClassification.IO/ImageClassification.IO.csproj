@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+    <Version>1.5.5.1</Version>
+    <Authors>teonsen</Authors>
+    <Company>teonsen</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>teonsen</Copyright>
+    <Description>Common library for teonsen's ImageClassification/ImageClassificationGPU.</Description>
+    <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
+    <PackageTags>ML.NET image-classification</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -20,9 +20,8 @@ namespace ImageClassification
         /// <param name="imagesFolder">Specify the root folder where the images are foldered for each label.(それぞれの種類にフォルダ分けされた画像があるルートフォルダを指定してください。)</param>
         /// <param name="hp">Hyper parameters</param>
         /// <returns></returns>
-        public static TrainingResultFiles GenerateModel(string imagesFolder, HyperParameter hp)
+        public static TrainingResults GenerateModel(string imagesFolder, HyperParameter hp)
         {
-            var resultFiles = new TrainingResultFiles(imagesFolder);
             // コンテキストの生成
             MLContext mlContext = new MLContext(seed: 1);
             // データをロードしてシャッフルする
@@ -83,19 +82,20 @@ namespace ImageClassification
             // 学習の実行
             ITransformer model = pipeline.Fit(trainDataView);
 
+            var resultFiles = new ResultFiles(imagesFolder);
             // データ準備パイプラインをファイルに保存
-            mlContext.Model.Save(dataPrepTransformer, trainDataView.Schema, resultFiles.PipelineSavedPath);
+            mlContext.Model.Save(dataPrepTransformer, trainDataView.Schema, resultFiles.PipelineZip);
 
             // 学習モデルをファイルに保存
-            mlContext.Model.Save(model, trainDataView.Schema, resultFiles.ModelSavedPath);
+            mlContext.Model.Save(model, trainDataView.Schema, resultFiles.ModelZip);
 
             // テストデータで推論を実行
             IDataView prediction = model.Transform(testDataView6);
             IEnumerable<ImagePrediction> predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true);
 
-            // 結果を保存
-            ResultHTML.Save(mlContext, trainDataView, prediction, predictions, resultFiles, hp.ResultsToShow);
-            return resultFiles;
+            // テストデータでの推論結果をもとに評価指標を計算
+            var mcm = mlContext.MulticlassClassification.Evaluate(prediction);
+            return new TrainingResults(mcm, trainDataView, predictions, resultFiles, hp.ResultsToShow);
         }
 
     }

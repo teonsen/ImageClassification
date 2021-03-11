@@ -22,18 +22,16 @@ namespace TestConsole
                     LearningRate = 0.01f,
                     eTrainerArchitecture = eTrainerArchitectures.ResnetV250,
                     TestFraction = 0.3f,
-                    ResultsToShow = 30
+                    ResultsToShow = 20
                 };
 
                 // Train and generate the model.
-                var resultFiles = Trainer.GenerateModel(dataDir, hp);
+                var results = Trainer.GenerateModel(dataDir, hp);
+                // Save the results as HTML file.
+                results.SaveAsHTML();
+
+                //Predictor.ClassifySingleImage(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, "path_to_image.jpg");
             }
-        }
-
-        static void Predict(TrainingResultFiles f)
-        {
-            var result = Predictor.ClassifySingleImage(f.PipelineSavedPath, f.ModelSavedPath, "path");
-
         }
     }
 }
