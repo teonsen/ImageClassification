@@ -9,9 +9,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A ML.NET wrapper to ease image classification.</Description>
     <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
-    <AssemblyVersion>1.5.5.1</AssemblyVersion>
-    <FileVersion>1.5.5.1</FileVersion>
-    <Version>1.5.5.1</Version>
+    <AssemblyVersion>1.5.5.2</AssemblyVersion>
+    <FileVersion>1.5.5.2</FileVersion>
+    <Version>1.5.5.2</Version>
     <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
     <PackageTags>ML.NET image-classification</PackageTags>
   </PropertyGroup>

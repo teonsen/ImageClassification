@@ -7,7 +7,7 @@
     <Company>teonsen</Company>
     <Product>ImageClassificationGPU</Product>
     <Copyright>teonsen</Copyright>
-    <Version>1.5.5.1</Version>
+    <Version>1.5.5.2</Version>
     <Authors>teonsen</Authors>
     <Description>A ML.NET wrapper to ease image classification.</Description>
     <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
@@ -16,8 +16,8 @@
     <PackageReleaseNotes>You need to meet following requirements.
 * CUDA 10.1 update2
 * cuDNN 7.6.5</PackageReleaseNotes>
-    <AssemblyVersion>1.5.5.1</AssemblyVersion>
-    <FileVersion>1.5.5.1</FileVersion>
+    <AssemblyVersion>1.5.5.2</AssemblyVersion>
+    <FileVersion>1.5.5.2</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

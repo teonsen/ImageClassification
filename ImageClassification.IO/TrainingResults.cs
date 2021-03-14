@@ -105,48 +105,6 @@ namespace ImageClassification.IO
             }
         }
 
-        public class ImageResult
-        {
-            internal string Name { get; private set; }
-            internal string PredictedLabel { get; private set; }
-            internal string ImagePath { get; private set; }
-            internal string FileName { get; private set; }
-            internal bool IsCorrect { get; private set; }
-            internal float HighScore { get; private set; }
-            internal List<SubResult> LabelsScore { get; private set; }
-
-            public ImageResult(ImagePrediction p, VBuffer<ReadOnlyMemory<char>> keyValues)
-            {
-                Name = p.Name;
-                PredictedLabel = p.PredictedLabelValue;
-                IsCorrect = Name.Equals(PredictedLabel);
-                ImagePath = p.ImagePath;
-                FileName = Path.GetFileName(ImagePath);
-                LabelsScore = new List<SubResult>();
-                p.Score.Select((s, i) => (Index: i, Label: keyValues.GetItemOrDefault(i), Score: s))
-                .OrderByDescending(c => c.Score)
-                .Take(10) // 上位 10 件(ラベル)
-                .ToList()
-                .ForEach(c =>
-                {
-                    LabelsScore.Add(new SubResult(c.Label.ToString(), c.Score));
-                });
-                HighScore = LabelsScore[0].fScore;
-            }
-        }
-
-        public class SubResult
-        {
-            internal string Label { get; private set; }
-            internal string sScore { get; private set; }
-            internal float fScore { get; private set; }
-            public SubResult(string label, float score)
-            {
-                Label = label;
-                fScore = score;
-                sScore = $"{score:P}";
-            }
-        }
 
         public void SaveAsHTML(string savePath = "")
         {
@@ -221,5 +179,48 @@ namespace ImageClassification.IO
 
     }
 
+    public class ImageResult
+    {
+        public string Name { get; private set; }
+        public string PredictedLabel { get; private set; }
+        public string ImagePath { get; private set; }
+        public string FileName { get; private set; }
+        public bool IsCorrect { get; private set; }
+        public float HighScore { get; private set; }
+        public List<SubResult> LabelsScore { get; private set; }
+
+        public ImageResult(ImagePrediction p, VBuffer<ReadOnlyMemory<char>> keyValues)
+        {
+            Name = p.Name;
+            PredictedLabel = p.PredictedLabelValue;
+            IsCorrect = Name.Equals(PredictedLabel);
+            ImagePath = p.ImagePath;
+            FileName = Path.GetFileName(ImagePath);
+            LabelsScore = new List<SubResult>();
+            p.Score.Select((s, i) => (Index: i, Label: keyValues.GetItemOrDefault(i), Score: s))
+            .OrderByDescending(c => c.Score)
+            .Take(10) // 上位 10 件(ラベル)
+            .ToList()
+            .ForEach(c =>
+            {
+                LabelsScore.Add(new SubResult(c.Label.ToString(), c.Score));
+            });
+            HighScore = LabelsScore[0].fScore;
+        }
+
+
+        public class SubResult
+        {
+            internal string Label { get; private set; }
+            internal string sScore { get; private set; }
+            internal float fScore { get; private set; }
+            public SubResult(string label, float score)
+            {
+                Label = label;
+                fScore = score;
+                sScore = $"{score:P}";
+            }
+        }
+    }
 
 }
