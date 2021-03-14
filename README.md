@@ -45,8 +45,8 @@ To predict an image, pass the pipeline and model.zip output by Trainer.GenerateM
 ```csharp
 // Classify the single image.
 string imageToClassify = @"C:\your\imageToClassify(apple_or_banana_or_orange).png";
-var prediction = Predictor.ClassifySingleImage(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, imageToClassify);
-Console.WriteLine($@"Predicted image label is: ""{prediction.PredictedLabel}"". Score:{prediction.Score}");
+var p = Classifier.GetSingleImagePrediction(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, imageToClassify);
+Console.WriteLine($@"Predicted image label is: ""{p.PredictedLabel}"". Score:{p.HighScore}");
 ```
 
 # Acknowledgements
