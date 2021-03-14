@@ -30,7 +30,9 @@ namespace TestConsole
                 // Save the results as HTML file.
                 results.SaveAsHTML();
 
-                //Predictor.ClassifySingleImage(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, "path_to_image.jpg");
+                string imageToClassify = @"C:\your\imageToClassify(apple_or_banana_or_orange).png";
+                var p = Classifier.GetSingleImagePrediction(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, imageToClassify);
+                Console.WriteLine($@"Predicted image label is: ""{p.PredictedLabel}"". Score:{p.HighScore}");
             }
         }
     }
