@@ -39,6 +39,22 @@ namespace ImageClassification
             return new ImageResult(predictions.First(), keyValues);
         }
 
+        public static ImageResult GetSingleImagePrediction(MLContext mlContext, ITransformer dataPrepPipeline, ITransformer trainedModel, string targetImageFile)
+        {
+            // データのロード
+            var data = new List<ImageData>();
+            data.Add(new ImageData { ImagePath = targetImageFile });
+            var dataView = mlContext.Data.LoadFromEnumerable(data);
+            var transformedDataView = dataPrepPipeline.Transform(dataView);
+            var prediction = trainedModel.Transform(transformedDataView);
+            var predictions = mlContext.Data.CreateEnumerable<ImagePrediction>(prediction, reuseRowObject: true);
+
+            // ラベルと予測文字列のキーバリューを取得
+            VBuffer<ReadOnlyMemory<char>> keyValues = default;
+            transformedDataView.Schema["Label"].GetKeyValues(ref keyValues);
+            return new ImageResult(predictions.First(), keyValues);
+        }
+
         public static List<ImageResult> GetBulkImagePrediction(string pipelineZipFilePath, string trainedModelZipFilePath, string targetImagesFolder)
         {
             MLContext mlContext = new MLContext(seed: 1);

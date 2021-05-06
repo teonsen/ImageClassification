@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
-    <Version>1.5.5.2</Version>
+    <Version>1.5.5.3</Version>
     <Authors>teonsen</Authors>
     <Company>teonsen</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

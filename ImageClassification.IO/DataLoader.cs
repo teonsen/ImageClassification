@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.ML;
-using Microsoft.ML.Data;
 
 namespace ImageClassification.IO
 {
@@ -30,5 +29,16 @@ namespace ImageClassification.IO
             return shuffledDataView;
         }
 
+        public static ITransformer GetPipeline(MLContext mlContext, string pipelineZipFilePath)
+        {
+            DataViewSchema dataPrepPipelineSchema;
+            return mlContext.Model.Load(pipelineZipFilePath, out dataPrepPipelineSchema);
+        }
+
+        public static ITransformer GetModel(MLContext mlContext, string trainedModelZipFilePath)
+        {
+            DataViewSchema modelSchema;
+            return mlContext.Model.Load(trainedModelZipFilePath, out modelSchema);
+        }
     }
 }
