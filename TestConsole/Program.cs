@@ -14,7 +14,7 @@ namespace TestConsole
             {
                 // Define data-set folder.
                 string dataDir = args[0];
-                // Define hyper-paramters such as Epoch or BatchSize.
+                // Define hyper-paramters such as Epoch and BatchSize.
                 var hp = new HyperParameter
                 {
                     Epoch = 200,
@@ -27,8 +27,10 @@ namespace TestConsole
 
                 // Train and generate the model.
                 var results = Trainer.GenerateModel(dataDir, hp);
-                // Save the results as HTML file.
+
+                // Save the results as HTML file.(optional)
                 results.SaveAsHTML();
+
 
                 string imageToClassify = @"C:\your\imageToClassify(apple_or_banana_or_orange).png";
                 var p = Classifier.GetSingleImagePrediction(results.Resultfiles.PipelineZip, results.Resultfiles.ModelZip, imageToClassify);

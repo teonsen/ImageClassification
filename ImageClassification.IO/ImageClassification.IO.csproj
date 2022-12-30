@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
-    <Version>1.5.5.3</Version>
+    <TargetFrameworks>net6;net472</TargetFrameworks>
+    <Version>2.0.0.0</Version>
     <Authors>teonsen</Authors>
     <Company>teonsen</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,10 +12,15 @@
     <RepositoryUrl>https://github.com/teonsen/ImageClassification</RepositoryUrl>
     <PackageTags>ML.NET image-classification</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReleaseNotes>2.0.x comes with ML.NET 2.0.0.0 or later.
+Changed .NETCore3.1 to .NET6.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML" Version="1.5.5" />
+    <PackageReference Include="Microsoft.ML" Version="2.0.0" />
+    <None Include="doc\readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

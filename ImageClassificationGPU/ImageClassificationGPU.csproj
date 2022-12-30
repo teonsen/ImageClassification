@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+    <TargetFrameworks>net6;net472</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Company>teonsen</Company>
     <Product>ImageClassificationGPU</Product>
     <Copyright>teonsen</Copyright>
-    <Version>1.5.5.3</Version>
+    <Version>2.0.0.0</Version>
     <Authors>teonsen</Authors>
     <Description>A ML.NET wrapper to ease image classification.</Description>
     <PackageProjectUrl>https://github.com/teonsen/ImageClassification</PackageProjectUrl>
@@ -15,20 +15,25 @@
     <PackageTags>ML.NET image-classification</PackageTags>
     <PackageReleaseNotes>You need to meet following requirements.
 * CUDA 10.1 update2
-* cuDNN 7.6.5</PackageReleaseNotes>
-    <AssemblyVersion>1.5.5.3</AssemblyVersion>
-    <FileVersion>1.5.5.3</FileVersion>
+* cuDNN 7.6.5
+
+2.0.x comes with ML.NET 2.0.0.0 or later.
+Changed .NETCore3.1 to .NET6.0</PackageReleaseNotes>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ML" Version="1.5.5" />
-    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.5.5" />
-    <PackageReference Include="Microsoft.ML.Vision" Version="1.5.5" />
-    <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.3.1" />
+    <PackageReference Include="Microsoft.ML" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ML.Vision" Version="2.0.0" />
+    <PackageReference Include="SciSharp.TensorFlow.Redist-Windows-GPU" Version="2.10.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ImageClassification.IO\ImageClassification.IO.csproj" />
+    <None Include="doc\readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
